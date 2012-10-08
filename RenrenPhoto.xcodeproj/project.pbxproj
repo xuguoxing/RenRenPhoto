@@ -15,6 +15,12 @@
 		2508EF0015F5DDAA0031EEE4 /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2508EEFC15F5DDAA0031EEE4 /* close@2x.png */; };
 		2508EF0315F5F4710031EEE4 /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2508EF0215F5F4710031EEE4 /* NSString+Additions.m */; };
 		2508EF0615F5F4910031EEE4 /* NSDictionary+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2508EF0515F5F4910031EEE4 /* NSDictionary+Additions.m */; };
+		251ED2AC1623229D00BB92CD /* TapDetectingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 251ED2A71623229D00BB92CD /* TapDetectingImageView.m */; };
+		251ED2AD1623229D00BB92CD /* TapDetectingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 251ED2A91623229D00BB92CD /* TapDetectingView.m */; };
+		251ED2AE1623229D00BB92CD /* ZoomingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 251ED2AB1623229D00BB92CD /* ZoomingScrollView.m */; };
+		251ED2B0162325D200BB92CD /* yulee.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 251ED2AF162325D200BB92CD /* yulee.jpeg */; };
+		251ED2B71623282A00BB92CD /* UIEventProbeApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 251ED2B61623282A00BB92CD /* UIEventProbeApplication.m */; };
+		251ED2BA16232B1800BB92CD /* UIApplication+LogStackTrace.m in Sources */ = {isa = PBXBuildFile; fileRef = 251ED2B916232B1800BB92CD /* UIApplication+LogStackTrace.m */; };
 		253164AC15FE342B0053191B /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 253164AB15FE342B0053191B /* UserInfo.m */; };
 		253164B015FE37C60053191B /* AlbumInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 253164AF15FE37C60053191B /* AlbumInfo.m */; };
 		253A937F15F0BB1A00BBAC23 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 253A937E15F0BB1A00BBAC23 /* UIKit.framework */; };
@@ -60,6 +66,17 @@
 		2508EF0215F5F4710031EEE4 /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
 		2508EF0415F5F4910031EEE4 /* NSDictionary+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Additions.h"; sourceTree = "<group>"; };
 		2508EF0515F5F4910031EEE4 /* NSDictionary+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Additions.m"; sourceTree = "<group>"; };
+		251ED2A61623229D00BB92CD /* TapDetectingImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapDetectingImageView.h; sourceTree = "<group>"; };
+		251ED2A71623229D00BB92CD /* TapDetectingImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapDetectingImageView.m; sourceTree = "<group>"; };
+		251ED2A81623229D00BB92CD /* TapDetectingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapDetectingView.h; sourceTree = "<group>"; };
+		251ED2A91623229D00BB92CD /* TapDetectingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapDetectingView.m; sourceTree = "<group>"; };
+		251ED2AA1623229D00BB92CD /* ZoomingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomingScrollView.h; sourceTree = "<group>"; };
+		251ED2AB1623229D00BB92CD /* ZoomingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoomingScrollView.m; sourceTree = "<group>"; };
+		251ED2AF162325D200BB92CD /* yulee.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = yulee.jpeg; sourceTree = "<group>"; };
+		251ED2B51623282A00BB92CD /* UIEventProbeApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIEventProbeApplication.h; sourceTree = "<group>"; };
+		251ED2B61623282A00BB92CD /* UIEventProbeApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIEventProbeApplication.m; sourceTree = "<group>"; };
+		251ED2B816232B1800BB92CD /* UIApplication+LogStackTrace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+LogStackTrace.h"; sourceTree = "<group>"; };
+		251ED2B916232B1800BB92CD /* UIApplication+LogStackTrace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+LogStackTrace.m"; sourceTree = "<group>"; };
 		253164AA15FE342B0053191B /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
 		253164AB15FE342B0053191B /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
 		253164AE15FE37C60053191B /* AlbumInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumInfo.h; sourceTree = "<group>"; };
@@ -141,6 +158,7 @@
 		2502751C15F87D62008CC826 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				251ED2A5162321D700BB92CD /* Touches */,
 				2502751E15F87DAB008CC826 /* MainViewController.h */,
 				2502751F15F87DAB008CC826 /* MainViewController.m */,
 				25D46B131600724500AA68AF /* AlbumsViewController.h */,
@@ -168,12 +186,37 @@
 		2508EEF815F5DD100031EEE4 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				251ED2AF162325D200BB92CD /* yulee.jpeg */,
 				2508EEF915F5DDAA0031EEE4 /* close_selected.png */,
 				2508EEFA15F5DDAA0031EEE4 /* close_selected@2x.png */,
 				2508EEFB15F5DDAA0031EEE4 /* close.png */,
 				2508EEFC15F5DDAA0031EEE4 /* close@2x.png */,
 			);
 			name = images;
+			sourceTree = "<group>";
+		};
+		251ED2A5162321D700BB92CD /* Touches */ = {
+			isa = PBXGroup;
+			children = (
+				251ED2A61623229D00BB92CD /* TapDetectingImageView.h */,
+				251ED2A71623229D00BB92CD /* TapDetectingImageView.m */,
+				251ED2A81623229D00BB92CD /* TapDetectingView.h */,
+				251ED2A91623229D00BB92CD /* TapDetectingView.m */,
+				251ED2AA1623229D00BB92CD /* ZoomingScrollView.h */,
+				251ED2AB1623229D00BB92CD /* ZoomingScrollView.m */,
+				251ED2B51623282A00BB92CD /* UIEventProbeApplication.h */,
+				251ED2B61623282A00BB92CD /* UIEventProbeApplication.m */,
+			);
+			name = Touches;
+			sourceTree = "<group>";
+		};
+		251ED2B4162327D200BB92CD /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				251ED2B816232B1800BB92CD /* UIApplication+LogStackTrace.h */,
+				251ED2B916232B1800BB92CD /* UIApplication+LogStackTrace.m */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 		253A936F15F0BB1A00BBAC23 = {
@@ -209,6 +252,7 @@
 		253A938415F0BB1A00BBAC23 /* RenrenPhoto */ = {
 			isa = PBXGroup;
 			children = (
+				251ED2B4162327D200BB92CD /* Utils */,
 				25EEF52B1606F66C0014BFD8 /* PSCollectionView */,
 				25FC2FD81605E71C001ABFCE /* SDWebImage */,
 				253A939915F0BB3000BBAC23 /* Renren */,
@@ -352,6 +396,7 @@
 				2508EEFE15F5DDAA0031EEE4 /* close_selected@2x.png in Resources */,
 				2508EEFF15F5DDAA0031EEE4 /* close.png in Resources */,
 				2508EF0015F5DDAA0031EEE4 /* close@2x.png in Resources */,
+				251ED2B0162325D200BB92CD /* yulee.jpeg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,6 +435,11 @@
 				25EEF52F1606F66C0014BFD8 /* PSCollectionView.m in Sources */,
 				25EEF5321606F7A60014BFD8 /* PSCollectionViewCell.m in Sources */,
 				25CCB1EC160751C50085564D /* PSPhotoViewCell.m in Sources */,
+				251ED2AC1623229D00BB92CD /* TapDetectingImageView.m in Sources */,
+				251ED2AD1623229D00BB92CD /* TapDetectingView.m in Sources */,
+				251ED2AE1623229D00BB92CD /* ZoomingScrollView.m in Sources */,
+				251ED2B71623282A00BB92CD /* UIEventProbeApplication.m in Sources */,
+				251ED2BA16232B1800BB92CD /* UIApplication+LogStackTrace.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

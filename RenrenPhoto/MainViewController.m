@@ -9,6 +9,7 @@
 #import "MainViewController.h"
 #import "AlbumsViewController.h"
 #import "FriendsViewController.h"
+#import "ZoomingScrollView.h"
 @interface MainViewController ()
 
 @end
@@ -157,6 +158,17 @@
     }];
 }
 
+-(void)showImage:(id)sender
+{
+    ZoomingScrollView *scrollView = [[ZoomingScrollView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    [UIApplication sharedApplication].statusBarHidden = YES;
+    UIImage *localImage = [UIImage imageNamed:@"yulee.jpeg"];
+    //UIImage *netWorkImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://imglf9.ph.126.net/1MHqgF5gjUsyDtA03_hyLw==/2490772068930385919.jpg"]]];
+    [scrollView setImage:localImage];
+    [[[UIApplication sharedApplication] keyWindow] addSubview:scrollView];
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -195,7 +207,14 @@
     [friendsPhotoButton addTarget:self action:@selector(friendsPhoto:) forControlEvents:UIControlEventTouchUpInside];
     [friendsPhotoButton setTitle:@"人人好友相册" forState:UIControlStateNormal];
     friendsPhotoButton.frame =  CGRectMake(155, 65, 130.0, 100.0);
-    [self.view addSubview:friendsPhotoButton];    
+    [self.view addSubview:friendsPhotoButton];
+    
+    
+    UIButton *imageButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [imageButton addTarget:self action:@selector(showImage:) forControlEvents:UIControlEventTouchUpInside];
+    [imageButton setTitle:@"显示图片" forState:UIControlStateNormal];
+    imageButton.frame =  CGRectMake(155, 200, 130.0, 100.0);
+    [self.view addSubview:imageButton];
 	
    /* UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self action:@selector(renrenLogin:) forControlEvents:UIControlEventTouchUpInside];
