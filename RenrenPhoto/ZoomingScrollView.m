@@ -188,6 +188,4 @@
     [self handleDoubleTap:touchPoint];
 }
 
-
-
 @end

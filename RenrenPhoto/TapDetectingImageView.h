@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "TapDetectingView.h"
 @protocol TapDetectingImageViewDelegate <NSObject>
 @optional
 - (void)imageView:(UIImageView *)imageView singleTapDetected:(CGPoint)touchPoint;

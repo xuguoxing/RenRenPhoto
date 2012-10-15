@@ -165,7 +165,8 @@
     UIImage *localImage = [UIImage imageNamed:@"yulee.jpeg"];
     //UIImage *netWorkImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://imglf9.ph.126.net/1MHqgF5gjUsyDtA03_hyLw==/2490772068930385919.jpg"]]];
     [scrollView setImage:localImage];
-    [[[UIApplication sharedApplication] keyWindow] addSubview:scrollView];
+    //[[[UIApplication sharedApplication] keyWindow] addSubview:scrollView];
+    [self.view addSubview:scrollView];
     
 }
 
@@ -245,5 +246,11 @@
 -(void)dealloc
 {
     [[Renren sharedRenren] saveUserSessionInfo];
+}
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    NSLog(@"mainViewCountroller touchBegain");
+    NSLog(@"%@",[NSThread callStackSymbols]);
 }
 @end

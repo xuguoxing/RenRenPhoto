@@ -30,7 +30,9 @@
 		253A938B15F0BB1A00BBAC23 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 253A938A15F0BB1A00BBAC23 /* main.m */; };
 		253A938F15F0BB1A00BBAC23 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 253A938E15F0BB1A00BBAC23 /* AppDelegate.m */; };
 		253A939D15F0BB4400BBAC23 /* Renren.m in Sources */ = {isa = PBXBuildFile; fileRef = 253A939B15F0BB4400BBAC23 /* Renren.m */; };
+		25515AFA1623FAF10013BAE3 /* UIEventProbeWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 25515AF91623FAF10013BAE3 /* UIEventProbeWindow.m */; };
 		25CCB1EC160751C50085564D /* PSPhotoViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CCB1EB160751C50085564D /* PSPhotoViewCell.m */; };
+		25D0E633162BF0DE00B703E1 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D0E632162BF0DE00B703E1 /* LoginViewController.m */; };
 		25D46B151600724600AA68AF /* AlbumsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D46B141600724500AA68AF /* AlbumsViewController.m */; };
 		25D46B191600795500AA68AF /* AlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D46B181600795500AA68AF /* AlbumCell.m */; };
 		25DA029815FF88D300B7CCC2 /* PhotoInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DA029715FF88D300B7CCC2 /* PhotoInfo.m */; };
@@ -93,8 +95,12 @@
 		253A938E15F0BB1A00BBAC23 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		253A939B15F0BB4400BBAC23 /* Renren.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Renren.m; sourceTree = "<group>"; };
 		253A939C15F0BB4400BBAC23 /* Renren.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renren.h; sourceTree = "<group>"; };
+		25515AF81623FAF00013BAE3 /* UIEventProbeWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIEventProbeWindow.h; sourceTree = "<group>"; };
+		25515AF91623FAF10013BAE3 /* UIEventProbeWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIEventProbeWindow.m; sourceTree = "<group>"; };
 		25CCB1EA160751C50085564D /* PSPhotoViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PSPhotoViewCell.h; path = PSCollectionView/PSPhotoViewCell.h; sourceTree = "<group>"; };
 		25CCB1EB160751C50085564D /* PSPhotoViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PSPhotoViewCell.m; path = PSCollectionView/PSPhotoViewCell.m; sourceTree = "<group>"; };
+		25D0E631162BF0DE00B703E1 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		25D0E632162BF0DE00B703E1 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		25D46B131600724500AA68AF /* AlbumsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumsViewController.h; sourceTree = "<group>"; };
 		25D46B141600724500AA68AF /* AlbumsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumsViewController.m; sourceTree = "<group>"; };
 		25D46B171600795500AA68AF /* AlbumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumCell.h; sourceTree = "<group>"; };
@@ -158,6 +164,7 @@
 		2502751C15F87D62008CC826 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				25D0E62F162BF0B300B703E1 /* 12306 */,
 				251ED2A5162321D700BB92CD /* Touches */,
 				2502751E15F87DAB008CC826 /* MainViewController.h */,
 				2502751F15F87DAB008CC826 /* MainViewController.m */,
@@ -206,6 +213,8 @@
 				251ED2AB1623229D00BB92CD /* ZoomingScrollView.m */,
 				251ED2B51623282A00BB92CD /* UIEventProbeApplication.h */,
 				251ED2B61623282A00BB92CD /* UIEventProbeApplication.m */,
+				25515AF81623FAF00013BAE3 /* UIEventProbeWindow.h */,
+				25515AF91623FAF10013BAE3 /* UIEventProbeWindow.m */,
 			);
 			name = Touches;
 			sourceTree = "<group>";
@@ -300,6 +309,15 @@
 				25DA029B15FF943500B7CCC2 /* PhotoComment.m */,
 			);
 			name = Renren;
+			sourceTree = "<group>";
+		};
+		25D0E62F162BF0B300B703E1 /* 12306 */ = {
+			isa = PBXGroup;
+			children = (
+				25D0E631162BF0DE00B703E1 /* LoginViewController.h */,
+				25D0E632162BF0DE00B703E1 /* LoginViewController.m */,
+			);
+			name = 12306;
 			sourceTree = "<group>";
 		};
 		25EEF52B1606F66C0014BFD8 /* PSCollectionView */ = {
@@ -440,6 +458,8 @@
 				251ED2AE1623229D00BB92CD /* ZoomingScrollView.m in Sources */,
 				251ED2B71623282A00BB92CD /* UIEventProbeApplication.m in Sources */,
 				251ED2BA16232B1800BB92CD /* UIApplication+LogStackTrace.m in Sources */,
+				25515AFA1623FAF10013BAE3 /* UIEventProbeWindow.m in Sources */,
+				25D0E633162BF0DE00B703E1 /* LoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

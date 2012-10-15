@@ -7,13 +7,14 @@
 //
 
 #import "AppDelegate.h"
-
+#import "UIEventProbeWindow.h"
 @implementation AppDelegate
 
 @synthesize window = _window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //self.window = [[UIEventProbeWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
