@@ -31,3 +31,4 @@
 -(id)initWithDictionary:(NSDictionary*)userInfo;
 -(id)initWithFriendInfo:(FriendInfo*)friend;
 @end
+

@@ -27,7 +27,13 @@ static NSString* kStringBoundary = @"3i2ndDfv2rTHiSisAbouNdArYfORhtTPEefj3";
     request.params = params;
     return request;
 }
-                 
+
+-(void)setCompletion:(void (^)(NSMutableData *))completion failure:(void (^)(NSError *))failure
+{
+    completionBlock = completion;
+    failedBlock = failure;
+}
+
 -(NSString*)serializeURL
 {
     if ([_httpMethod isEqualToString:@"GET"]) {
@@ -170,4 +176,22 @@ static NSString* kStringBoundary = @"3i2ndDfv2rTHiSisAbouNdArYfORhtTPEefj3";
     [_connection cancel];
     _connection = nil;
 }
+
+
+#pragma mark -
+#pragma mark NSURLConnectionDelegate
+-(BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
+{
+    return [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust];
+}
+-(void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+    NSLog(@"didCancelAuthenticationChallenge:%@",challenge);
+}
+
+-(void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+    [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
+}
+
 @end

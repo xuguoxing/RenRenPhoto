@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "MainViewController.h"
+#import "FontTestController.h"
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
     MainViewController *mainController;
+    FontTestController *fontTestController;
     UINavigationController *nav;
 }
 

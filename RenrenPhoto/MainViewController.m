@@ -9,7 +9,10 @@
 #import "MainViewController.h"
 #import "AlbumsViewController.h"
 #import "FriendsViewController.h"
+#import "LoginViewController.h"
 #import "ZoomingScrollView.h"
+#import "QueryViewController.h"
+#import "FontTestController.h"
 @interface MainViewController ()
 
 @end
@@ -170,6 +173,23 @@
     
 }
 
+
+-(void)login12306:(id)sender
+{
+    LoginViewController *login12306 = [[LoginViewController alloc]init];
+    [self.navigationController pushViewController:login12306 animated:YES];
+}
+
+/*-(void)query12306:(id)sender
+{
+    QueryViewController *query12306 = [[QueryViewController alloc]init];
+    [self.navigationController pushViewController:query12306 animated:YES];
+    
+    //FontTestController *controller = [[FontTestController alloc]initWithStyle:UITableViewStyleGrouped];
+    //[self.navigationController pushViewController:controller animated:YES];
+    
+}*/
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -211,11 +231,23 @@
     [self.view addSubview:friendsPhotoButton];
     
     
+    UIButton *loginButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [loginButton addTarget:self action:@selector(login12306:) forControlEvents:UIControlEventTouchUpInside];
+    [loginButton setTitle:@"12306" forState:UIControlStateNormal];
+    loginButton.frame =  CGRectMake(15, 200, 130.0, 100.0);
+    [self.view addSubview:loginButton];
+    
     UIButton *imageButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [imageButton addTarget:self action:@selector(showImage:) forControlEvents:UIControlEventTouchUpInside];
     [imageButton setTitle:@"显示图片" forState:UIControlStateNormal];
     imageButton.frame =  CGRectMake(155, 200, 130.0, 100.0);
     [self.view addSubview:imageButton];
+    
+    /*UIButton *queryButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [queryButton addTarget:self action:@selector(query12306:) forControlEvents:UIControlEventTouchUpInside];
+    [queryButton setTitle:@"12306查询" forState:UIControlStateNormal];
+    queryButton.frame =  CGRectMake(15, 350, 130.0, 100.0);
+    [self.view addSubview:queryButton];*/
 	
    /* UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self action:@selector(renrenLogin:) forControlEvents:UIControlEventTouchUpInside];

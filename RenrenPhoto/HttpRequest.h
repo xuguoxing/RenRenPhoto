@@ -28,7 +28,7 @@
 
 
 +(HttpRequest *)requestWithURL:(NSString *)url httpMethod:(NSString *)httpMethod params:(NSDictionary *)params;
-
+-(void)setCompletion:(void (^)(NSMutableData * data))completion failure:(void(^)(NSError *error))failure;
 -(void)connect;
 -(void)disconnect;
 
