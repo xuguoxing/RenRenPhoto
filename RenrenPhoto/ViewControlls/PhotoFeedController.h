@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface PhotoFeedController : UIViewController
+#import "PhotoFeedCell.h"
+#import "MWTapDetectingImageView.h"
+@interface PhotoFeedController : UIViewController<UITableViewDataSource,UITableViewDelegate,PhotoFeedCellDelegate,MWTapDetectingImageViewDelegate>
 
 @end

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MenuViewController : UIViewController
+@interface MenuViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
+
+@property (nonatomic) NSInteger selectIndex;
 
 @end

@@ -7,7 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PhotoFeed.h"
+@class PhotoFeedCell;
+@protocol PhotoFeedCellDelegate <NSObject>
+
+-(void)headerTouched:(PhotoFeedCell*)cell;
+-(void)photoTouched:(PhotoFeedCell*)cell;
+
+@end
 
 @interface PhotoFeedCell : UITableViewCell
+@property (nonatomic) UIImageView *photoImageView;
+
++(CGFloat)heightForPhotoFeed:(PhotoFeed*)feed;
+
+-(void)setPhotoFeed:(PhotoFeed*)feed;
 
 @end
