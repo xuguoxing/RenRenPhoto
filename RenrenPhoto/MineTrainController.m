@@ -8,6 +8,7 @@
 
 #import "MineTrainController.h"
 #import "QueryViewController.h"
+#import "TrainSession.h"
 @interface MineTrainController ()
 
 @end
@@ -64,7 +65,12 @@
         cell =[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
     if (section == 0) {
-        cell.textLabel.text = @"修改联系人";
+        if ([TrainSession sharedSession].userInfo) {
+            cell.textLabel.text = [TrainSession sharedSession].userInfo.passengerName;
+        }else{
+            cell.textLabel.text = [TrainSession sharedSession].userName;
+        }
+        cell.detailTextLabel.text = @"修改联系人";
     }else if(section == 1){
         if (row == 0) {
             cell.textLabel.text = @"车票预定";

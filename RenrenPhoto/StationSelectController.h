@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "PopUpView.h"
+#import "StationInfo.h"
 
 @protocol StationSelectDelegate <NSObject>
 
--(void)selectStation:(NSString*)stationCnName teleCode:(NSString*)stationTeleCode;
-
+-(void)selectStation:(StationInfo*)station;
 @end
 
 @interface StationSelectController : UIViewController<UITableViewDataSource,UITableViewDelegate>
@@ -28,6 +28,9 @@
     NSMutableArray *indexTitlesArray;
     
     __weak id<StationSelectDelegate> delegate;
+    
+    BOOL getingAllStations;
+    BOOL getingFavStations;
 }
 @property (nonatomic,weak) id<StationSelectDelegate> delegate;
 @end

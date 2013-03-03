@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TapDetectingImageView.h"
 #import "PopUpView.h"
-@interface LoginViewController : UIViewController<NSURLConnectionDelegate,NSURLConnectionDataDelegate,TapDetectingImageViewDelegate>
+@interface LoginViewController : UIViewController<TapDetectingImageViewDelegate>
 {
     NSMutableData *responceData;
     UITextField *userNameField;
@@ -19,16 +19,5 @@
     UIButton    *loginButton;
     
     PopUpView *popView;
-
-    
-    NSString *loginRand;
-    NSString *refundLogin;
-    NSString *refundFlag;
-    NSString *userName;
-    NSString *nameErrorFocus;
-    NSString *password;
-    NSString *passwordErrorFocus;
-    NSString *randCode;
-    NSString *randErrorFocus;
 }
 @end

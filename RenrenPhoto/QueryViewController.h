@@ -10,23 +10,24 @@
 #import "StationSelectController.h"
 #import "DateSelectController.h"
 #import "TrainNoSelectController.h"
+#import "TrainSession.h"
 @interface QueryViewController : UIViewController<StationSelectDelegate,UITableViewDataSource,UITableViewDelegate,DateSelectDelegate,TrainNoSelectDelegate>
 {
     UITableView *_tableView;
     
-    NSString *fromStationTelecode;
-    NSString *fromStationTelecodeName;
+    //NSString *fromStationTelecode;
+    //NSString *fromStationTelecodeName;
     
-    NSString *toStationTelecode;
-    NSString *toStationTelecodeName;
+    //NSString *toStationTelecode;
+    //NSString *toStationTelecodeName;
     
-    NSString *startDate;
-    NSString *startDateWeek;
-    UITextField *startDateField;
+    //NSString *startDate;
+    //NSString *startDateWeek;
+    //UITextField *startDateField;
         
-    NSString *startTime;
+    //NSString *startTime;
     
-    NSString *trainNo;
+    /*NSString *trainNo;
     NSString *trainNoDesc;
     UITextField *trainNoField;
     
@@ -34,7 +35,7 @@
     NSString *trainPassType;
     
     NSString *seatTypeNum;
-    NSString *includeStudent;    
+    NSString *includeStudent;   */ 
 }
 @property (nonatomic) NSMutableDictionary *queryParams;
 @property (nonatomic) NSMutableArray *queryTrainsArray;

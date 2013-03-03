@@ -9,17 +9,13 @@
 #import "StationSelectController.h"
 #import "AFNetworking.h"
 #import "AFURLConnectionOperation+HTTPS.h"
+#import "TrainSession.h"
 @interface StationSelectController ()
 
 @end
 
 @implementation StationSelectController
 @synthesize delegate;
-
-#define STATION_EN_NAME_KEY @"stationEnName"
-#define STATION_CN_NAME_KEY @"stationCnName"
-#define STATION_TELECODE_KEY @"stationTelecode"
-#define STATION_INDEX_KEY   @"stationIndex"
 
 - (id)init
 {
@@ -38,57 +34,12 @@
 }
 
 
-#pragma mark -
-#pragma mark 解析站点数据
-
--(void)parseStationsData:(NSData*)data
-{
-    for (int i =0; i<26; i++) {
-        [((NSMutableArray*)[alphaStationsArray objectAtIndex:i]) removeAllObjects];
-    }
-    
-    NSString *string = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSArray *stationStringArray = [string componentsSeparatedByString:@"@"];
-    for (NSString *oneStation in stationStringArray) {
-        NSArray *stationArray = [oneStation componentsSeparatedByString:@"|"];
-        if (stationArray.count != 4) {
-            continue;
-        }
-        NSString *stationEnName = [stationArray objectAtIndex:0];
-        NSString *stationCnName = [stationArray objectAtIndex:1];
-        NSString *stationTelecode = [stationArray objectAtIndex:2];
-        NSString *stationIndex = [stationArray objectAtIndex:3];
-        NSDictionary *stationDic = [NSDictionary dictionaryWithObjectsAndKeys:stationEnName,STATION_EN_NAME_KEY,stationCnName,STATION_CN_NAME_KEY,stationTelecode,STATION_TELECODE_KEY,stationIndex,STATION_INDEX_KEY, nil];
-        NSInteger alphaIndex = [stationEnName characterAtIndex:0]-'a';
-        if (alphaIndex >=0 && alphaIndex <26) {
-            [[alphaStationsArray objectAtIndex:alphaIndex] addObject:stationDic];
-        }
-    }
-    [self reloadData];
-}
-
--(void)parseFavStationsData:(NSData*)data
-{
-    NSString *string = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSArray *stationStringArray = [string componentsSeparatedByString:@"@"];
-    [favStationsArray removeAllObjects];
-    for (NSString *oneStation in stationStringArray) {
-        NSArray *stationArray = [oneStation componentsSeparatedByString:@"|"];
-        if (stationArray.count != 4) {
-            continue;
-        }
-        NSString *stationEnName = [stationArray objectAtIndex:0];
-        NSString *stationCnName = [stationArray objectAtIndex:1];
-        NSString *stationTelecode = [stationArray objectAtIndex:2];
-        NSString *stationIndex = [stationArray objectAtIndex:3];
-        NSDictionary *stationDic = [NSDictionary dictionaryWithObjectsAndKeys:stationEnName,STATION_EN_NAME_KEY,stationCnName,STATION_CN_NAME_KEY,stationTelecode,STATION_TELECODE_KEY,stationIndex,STATION_INDEX_KEY, nil];
-        [favStationsArray addObject:stationDic];
-    }
-    [self reloadData];
-}
-
 -(void)reloadData
 {
+    if (!getingAllStations && !getingFavStations) {
+        [popView destory];
+        popView = nil;
+    }
     [showStationsArray removeAllObjects];
     [indexTitlesArray removeAllObjects];
     [indexTitlesArray addObject:UITableViewIndexSearch];
@@ -177,8 +128,8 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indetifier];
     }
     NSArray *alphaArray = [showStationsArray objectAtIndex:indexPath.section];
-    NSDictionary *stationDic = [alphaArray objectAtIndex:indexPath.row];
-    cell.textLabel.text = [stationDic objectForKey:STATION_CN_NAME_KEY];
+    StationInfo *station  = [alphaArray objectAtIndex:indexPath.row];
+    cell.textLabel.text = station.stationCnName;
     return cell;
 }
 
@@ -186,10 +137,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSArray *alphaArray = [showStationsArray objectAtIndex:indexPath.section];
-    NSDictionary *stationDic = [alphaArray objectAtIndex:indexPath.row];
-    NSString *stationCnName = [stationDic objectForKey:STATION_CN_NAME_KEY];
-    NSString *stationTelecode = [stationDic objectForKey:STATION_TELECODE_KEY];
-    [self.delegate selectStation:stationCnName teleCode:stationTelecode];
+    StationInfo *station = [alphaArray objectAtIndex:indexPath.row];
+    [self.delegate selectStation:station];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -214,47 +163,38 @@
     _searchDC.searchResultsDataSource = self;
     _searchDC.searchResultsDelegate = self;
     
-    NSURLRequest *stationNameRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://dynamic.12306.cn/otsweb/js/common/station_name.js"]];
-    AFHTTPRequestOperation *stationNameOperation = [[AFHTTPRequestOperation alloc]initWithRequest:stationNameRequest];
-    [stationNameOperation setHttpsAuth];
-    [stationNameOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation,id responseObject){
-        [self parseStationsData:responseObject];
-        [popView destory];
-        popView = nil;
-        
-    } failure:^(AFHTTPRequestOperation *operation,NSError *error){
-        NSLog(@"get stations Error:%@",error);
-        [popView destory];
-        popView = nil;
-    }];
-    
-    NSURLRequest *favStationNameRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://dynamic.12306.cn/otsweb/js/common/favorite_name.js"]];
-    AFHTTPRequestOperation *favStationNameOperation = [[AFHTTPRequestOperation alloc]initWithRequest:favStationNameRequest];
-    [favStationNameOperation setAuthenticationAgainstProtectionSpaceBlock:^ BOOL (NSURLConnection *connection,NSURLProtectionSpace *protectionSpace){
-        return [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust];
-    } ];
-    [favStationNameOperation setAuthenticationChallengeBlock:^(NSURLConnection *connection,NSURLAuthenticationChallenge *challenge){
-        [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
-    }];
-    [favStationNameOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation,id responseObject){
-        [self parseFavStationsData:responseObject];
-        [popView destory];
-        popView = nil;
-        
-    } failure:^(AFHTTPRequestOperation *operation,NSError *error){
-        NSLog(@"get stations Error:%@",error);
-        [popView destory];
-        popView = nil;
-    }];
-    
     
     popView = [[PopUpView alloc] init];
 	popView.hintLabel.text = @"正在载入...";
 	[popView showInView:self.view];
-    [stationNameOperation start];
-    [favStationNameOperation start];
-    
-    
+     getingAllStations = YES;
+    [[TrainSession sharedSession] getAllStationsWithCompletion:^(NSArray *stationsArray, NSError *error) {
+        self->getingAllStations = NO;
+        if (stationsArray) {
+            for (int i =0; i<26; i++) {
+                [((NSMutableArray*)[alphaStationsArray objectAtIndex:i]) removeAllObjects];
+            }
+            for (StationInfo *station in stationsArray) {
+                NSString *stationEnName = station.stationEnName;
+                NSInteger alphaIndex = [stationEnName characterAtIndex:0]-'a';
+                if (alphaIndex >=0 && alphaIndex <26) {
+                    [[alphaStationsArray objectAtIndex:alphaIndex] addObject:station];
+                }
+            }
+            [self reloadData];
+        }else{
+            NSLog(@"get AllStations Error");
+        }
+    }];
+    getingFavStations = YES;
+    [[TrainSession sharedSession]getFavStationsWithCompletion:^(NSArray *stationsArray, NSError *error) {
+        self->getingFavStations = NO;
+        if (stationsArray) {
+             [favStationsArray removeAllObjects];
+            [favStationsArray addObjectsFromArray:stationsArray];
+            [self reloadData];
+        }
+    }];
     
 }
 

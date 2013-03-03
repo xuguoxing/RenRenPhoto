@@ -10,6 +10,6 @@
 
 @interface QueryResultController : UITableViewController
 
-@property (nonatomic) NSDictionary *queryParams;
+//@property (nonatomic) NSDictionary *queryParams;
 @property (nonatomic) NSMutableArray *queryResultArray;
 @end

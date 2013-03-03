@@ -7,7 +7,6 @@
 //
 
 #import "TrainNoSelectController.h"
-
 @interface TrainNoSelectController ()
 
 @end
@@ -60,8 +59,9 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     //G101（北京南07:00→上海虹桥12:23）
-    NSDictionary *trainNo = [self.trainNoArray objectAtIndex:indexPath.row];
-    NSString *trainNoDesc = [NSString stringWithFormat:@"%@ (%@%@->%@%@)",[trainNo objectForKey:@"value"],[trainNo objectForKey:@"start_station_name"],[trainNo objectForKey:@"start_time"],[trainNo objectForKey:@"end_station_name"],[trainNo objectForKey:@"end_time"]];
+    TrainNoInfo *trainNoInfo = [self.trainNoArray objectAtIndex:indexPath.row];
+    //NSDictionary *trainNo = [self.trainNoArray objectAtIndex:indexPath.row];
+    NSString *trainNoDesc = [NSString stringWithFormat:@"%@ (%@%@->%@%@)",trainNoInfo.trainNo,trainNoInfo.startStationName,trainNoInfo.startTime,trainNoInfo.endStationName,trainNoInfo.endTime];
     cell.textLabel.text = trainNoDesc;    
     return cell;
 }
@@ -71,10 +71,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *trainNoDic = [self.trainNoArray objectAtIndex:indexPath.row];
+    TrainNoInfo *trainNoInfo = [self.trainNoArray objectAtIndex:indexPath.row];
+   /* NSDictionary *trainNoDic = [self.trainNoArray objectAtIndex:indexPath.row];
     NSString *trainNoString = [trainNoDic objectForKey:@"value"];
     NSString *trainNoDesc = [NSString stringWithFormat:@"%@ (%@%@->%@%@)",[trainNoDic objectForKey:@"value"],[trainNoDic objectForKey:@"start_station_name"],[trainNoDic objectForKey:@"start_time"],[trainNoDic objectForKey:@"end_station_name"],[trainNoDic objectForKey:@"end_time"]];
-    [self.delegate performSelector:@selector(selectTrainNo:desc:) withObject:trainNoString withObject:trainNoDesc];
+   // [self.delegate performSelector:@selector(selectTrainNo:desc:) withObject:trainNoString withObject:trainNoDesc];*/
+    [self.delegate performSelector:@selector(selectTrainNo:) withObject:trainNoInfo];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

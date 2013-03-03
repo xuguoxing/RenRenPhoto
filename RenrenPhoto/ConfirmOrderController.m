@@ -12,6 +12,7 @@
 #import "AFURLConnectionOperation+HTTPS.h"
 #import "Passenger.h"
 #import "PassengerListController.h"
+#import "TrainSession.h"
 @interface ConfirmOrderController ()
 
 @end
@@ -38,7 +39,7 @@
                                 @"软座",@"2",
                                 @"硬座",@"1",nil];
         _seatTypeNumArray = [NSMutableArray array];
-        _passengersArray = [NSMutableArray array];
+        //_passengersArray = [NSMutableArray array];
     }
     return self;
 }
@@ -131,19 +132,20 @@
     }
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
+    TrainTicketInfo *ticketInfo = [TrainSession sharedSession].selectTrainTicketInfo;
     if (section == 0) {
         switch (row) {
             case 0:
                 cell.textLabel.text = @"车次";
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@-%@",self.trainInfo.trainCode,self.trainInfo.fromStationName,self.trainInfo.toStationName];
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@-%@",ticketInfo.trainCode,ticketInfo.fromStationName,ticketInfo.toStationName];
                 break;
             case 1:
                 cell.textLabel.text = @"日期";
-                cell.detailTextLabel.text = [self.queryParams objectForKey:kTrainDateField]; //kTrainDateField
+                cell.detailTextLabel.text = [TrainSession sharedSession].startDate; //kTrainDateField
                 break;
             case 2:
                 cell.textLabel.text = @"时间";
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@-%@(历时:%@)",self.trainInfo.startTime,self.trainInfo.arriveTime,self.trainInfo.lishi];
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@-%@(历时:%@)",ticketInfo.startTime,ticketInfo.arriveTime,ticketInfo.lishi];
                 break;
             case 3:
                 cell.textLabel.text = @"席别";
@@ -178,6 +180,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0 && indexPath.row == 5) {
+        [[TrainSession sharedSession]getUsualPassengersWithCompletion:^(NSMutableArray *usualPassengers, NSError *error) {
+            PassengerListController *controller = [[PassengerListController alloc]initWithStyle:UITableViewStylePlain];
+            controller.passengersArray = usualPassengers;
+            [self.navigationController pushViewController:controller animated:YES];
+        }];
         //pageIndex=0&pageSize=7&passenger_name=%E8%AF%B7%E8%BE%93%E5%85%A5%E6%B1%89%E5%AD%97%E6%88%96%E6%8B%BC%E9%9F%B3%E9%A6%96%E5%AD%97%E6%AF%8D
         
         /*NSString *string = @"%E8%AF%B7%E8%BE%93%E5%85%A5%E6%B1%89%E5%AD%97%E6%88%96%E6%8B%BC%E9%9F%B3%E9%A6%96%E5%AD%97%E6%AF%8D";
@@ -189,7 +196,7 @@
                                 @"0",@"pageIndex",
                                 @"7",@"pageSize",
                                 @"请输入汉字或拼音首字母",@"passenger_name",nil];*/
-        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+        /*NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"0",@"pageIndex",
                                 @"7",@"pageSize",
                                 @"",@"passenger_name",nil];
@@ -219,7 +226,7 @@
         } failure:^(AFHTTPRequestOperation *operation,NSError *error){
             NSLog(@"get trainNo Error:%@",error);
         }];
-        [operation start];
+        [operation start];*/
         
     }
 }
@@ -249,18 +256,20 @@
     orderRequest.cancel_flag=1&
     orderRequest.id_mode=Y&*/
     
-    NSDictionary *orderRequestDic = @{@"orderRequest.train_date":[self.queryParams objectForKey:kTrainDateField],
-                                      @"orderRequest.station_train_code":self.trainInfo.trainCode,
-    @"orderRequest.from_station_telecode":self.trainInfo.fromStationTelecode,
-    @"orderRequest.to_station_telecode":self.trainInfo.toStationTelecode,
+    TrainTicketInfo *ticketInfo = [TrainSession sharedSession].selectTrainTicketInfo;
+    
+    NSDictionary *orderRequestDic = @{@"orderRequest.train_date":[TrainSession sharedSession].startDate,
+                                      @"orderRequest.station_train_code":ticketInfo.trainCode,
+    @"orderRequest.from_station_telecode":ticketInfo.fromStationTelecode,
+    @"orderRequest.to_station_telecode":ticketInfo.toStationTelecode,
     @"orderRequest.seat_type_code":@"",
     @"orderRequest.seat_detail_type_code":@"",
     @"orderRequest.ticket_type_order_num":@"",
     @"orderRequest.bed_level_order_num":@"000000000000000000000000000000",
-    @"orderRequest.start_time":self.trainInfo.startTime,
-    @"orderRequest.end_time":self.trainInfo.arriveTime,
-    @"orderRequest.from_station_name":self.trainInfo.fromStationName,
-    @"orderRequest.to_station_name":self.trainInfo.toStationName,
+    @"orderRequest.start_time":ticketInfo.startTime,
+    @"orderRequest.end_time":ticketInfo.arriveTime,
+    @"orderRequest.from_station_name":ticketInfo.fromStationName,
+    @"orderRequest.to_station_name":ticketInfo.toStationName,
     @"orderRequest.cancel_flag":@"1",
     @"orderRequest.id_mode":@"Y"
     };

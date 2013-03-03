@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TrainInfo.h"
+#import "TrainTicketInfo.h"
 @interface ConfirmOrderController : UITableViewController
 
-@property (nonatomic) NSDictionary *queryParams;
-@property (nonatomic) TrainInfo *trainInfo;
+//@property (nonatomic) NSDictionary *queryParams;
+//@property (nonatomic) TrainTicketInfo *trainTicketInfo;
 @property (nonatomic) NSString *leftTicket;
 @property (nonatomic) NSDictionary *seatTypeNameDic;
 @property (nonatomic) NSMutableArray *seatTypeNumArray;
-@property (nonatomic) NSMutableArray *passengersArray;
+//@property (nonatomic) NSMutableArray *passengersArray;
 @end

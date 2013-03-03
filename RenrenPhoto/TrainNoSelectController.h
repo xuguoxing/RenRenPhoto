@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "TrainNoInfo.h"
 @protocol TrainNoSelectDelegate <NSObject>
 
--(void)selectTrainNo:(NSString*)trainNoString desc:(NSString*)descString;
+//-(void)selectTrainNo:(NSString*)trainNoString desc:(NSString*)descString;
+-(void)selectTrainNo:(TrainNoInfo*)trainNoInfo;
 
 @end
 

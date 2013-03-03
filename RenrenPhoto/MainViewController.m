@@ -13,6 +13,8 @@
 #import "ZoomingScrollView.h"
 #import "QueryViewController.h"
 #import "FontTestController.h"
+#import "RegexKitLite.h"
+#import "TrainSession.h"
 @interface MainViewController ()
 
 @end
@@ -177,18 +179,51 @@
 -(void)login12306:(id)sender
 {
     LoginViewController *login12306 = [[LoginViewController alloc]init];
-    [self.navigationController pushViewController:login12306 animated:YES];
+    //[self.navigationController pushViewController:login12306 animated:YES];
+    
+    
+    /*<td>硬卧(452.00元)无票</td>
+	
+    
+    
+    <td>硬座(257.00元)无票</td>
+	
+    
+    
+    <td>软卧(720.00元)无票</td>
+	
+    
+    
+    <td>无座(257.00元)有票</td>*/
+    
+    //\<td\>(.*?)\(.*\)(.*)\<\/td\>
+    NSString *fileName = [NSString stringWithFormat:@"%@/trainInfo.txt",NSHomeDirectory()];
+    NSError *error;
+    NSString *responce = [NSString stringWithContentsOfFile:fileName encoding:NSUTF8StringEncoding error:&error];
+    //NSString *responce = @"   <td>软卧(720.00元)无票</td>   <td>无座(257.00元)有票</td>";
+    NSString *regexString = @"\\<td\\>(.*?)\\(.*?\\)(.*?)\\<\\/td\\>";    
+    [responce enumerateStringsMatchedByRegex:regexString usingBlock:^(NSInteger captureCount, NSString *const __unsafe_unretained *capturedStrings, const NSRange *capturedRanges, volatile BOOL *const stop) {
+        NSLog(@"captureCount:%d string:%@",captureCount,capturedStrings[0]);
+        NSString *catptureString = capturedStrings[0];
+        NSString *seatTypeName = [catptureString stringByMatching:@"\\<td\\>(.*?)\\((.*?)\\)" capture:1];
+        NSString *price = [catptureString stringByMatching:@"\\<td\\>(.*?)\\((.*?)元\\)" capture:2];
+        NSLog(@"seat:%@ price:%@",seatTypeName,price);
+        NSMutableArray *seatTypeArray = [TrainSession sharedSession].seatTypeArray;
+        for (SeatType *seat in seatTypeArray) {
+            if([seat.seatTypeName isEqualToString:seatTypeName])
+            {
+                seat.seatPrice = price;
+                break;
+            }
+        }
+        
+        
+        
+    }];
+    
+    //[responce writeToFile:fileName atomically:YES encoding:NSUTF8StringEncoding error:&error];
 }
 
-/*-(void)query12306:(id)sender
-{
-    QueryViewController *query12306 = [[QueryViewController alloc]init];
-    [self.navigationController pushViewController:query12306 animated:YES];
-    
-    //FontTestController *controller = [[FontTestController alloc]initWithStyle:UITableViewStyleGrouped];
-    //[self.navigationController pushViewController:controller animated:YES];
-    
-}*/
 
 - (void)viewDidLoad
 {
@@ -242,25 +277,6 @@
     [imageButton setTitle:@"显示图片" forState:UIControlStateNormal];
     imageButton.frame =  CGRectMake(155, 200, 130.0, 100.0);
     [self.view addSubview:imageButton];
-    
-    /*UIButton *queryButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [queryButton addTarget:self action:@selector(query12306:) forControlEvents:UIControlEventTouchUpInside];
-    [queryButton setTitle:@"12306查询" forState:UIControlStateNormal];
-    queryButton.frame =  CGRectMake(15, 350, 130.0, 100.0);
-    [self.view addSubview:queryButton];*/
-	
-   /* UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button addTarget:self action:@selector(renrenLogin:) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitle:@"登陆" forState:UIControlStateNormal];
-    button.frame = CGRectMake(100,100, 50, 20);
-    [self.view addSubview:button];
-    
-    
-    UIButton *button2 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button2 addTarget:self action:@selector(getFriends:) forControlEvents:UIControlEventTouchUpInside];
-    [button2 setTitle:@"好友" forState:UIControlStateNormal];
-    button2.frame = CGRectMake(180,100, 50, 20);
-    [self.view addSubview:button2];*/
 }
 
 - (void)viewDidUnload

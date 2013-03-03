@@ -14,7 +14,7 @@
 #import "TFHpple.h"
 #import "NSString+HTML.h"
 #import "RegexKitLite.h"
-#import "TrainInfo.h"
+#import "TrainTicketInfo.h"
 #import "QueryResultController.h"
 @interface QueryViewController ()
 
@@ -26,42 +26,32 @@
 {
     self = [super init];
     if (self) {
-        // Custom initialization
-        //minDate = [NSDate date];
-        //maxDate = [NSDate dateWithTimeIntervalSinceNow:11*24*3600];
-        fromStationTelecode = @"";
-        toStationTelecode = @"";
-        startDate = getDateString([NSDate date]);
-        startDateWeek = getWeekString([NSDate date]);
-        startTime = @"00:00--24:00";
-        trainNo = @"";
+       /* trainNo = @"";
         trainNoDesc = @"";
         trainClass = @"QB#D#Z#T#K#QT#";
         trainPassType = @"QB";
         seatTypeNum = @"";
         includeStudent = @"00";
         
-        self.queryTrainsArray = [NSMutableArray array];
+        self.queryTrainsArray = [NSMutableArray array];*/
     }
     return self;
 }
 
 #pragma mark -
 #pragma mark StationSelectDelegate
--(void)selectStation:(NSString *)stationCnName teleCode:(NSString *)stationTeleCode
+-(void)selectStation:(StationInfo *)station
 {
-    NSLog(@"select :%@ -%@",stationCnName,stationTeleCode);
+    //NSLog(@"select :%@ -%@",stationCnName,stationTeleCode);
     NSIndexPath *indexPath = [_tableView indexPathForSelectedRow];
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
-            fromStationTelecode = stationTeleCode;
-            fromStationTelecodeName = stationCnName;
+            [TrainSession sharedSession].fromStation = station;
         }else if(indexPath.row == 1){
-            toStationTelecode = stationTeleCode;
-            toStationTelecodeName = stationCnName;
+            [TrainSession sharedSession].toStation = station;
         }
         UITableViewCell *cell = [_tableView cellForRowAtIndexPath:indexPath];
-        cell.detailTextLabel.text = stationCnName;
+        cell.detailTextLabel.text = station.stationCnName;;
     }
 }
 
@@ -72,8 +62,10 @@
     NSLog(@"select date:%@ week:%@",dateString,weekString);
      NSIndexPath *indexPath = [_tableView indexPathForSelectedRow];
     if (indexPath.section == 1 && indexPath.row == 0) {
-        startDate = dateString;
-        startDateWeek = weekString;
+        [TrainSession sharedSession].startDate = dateString;
+        [TrainSession sharedSession].startDateWeek = weekString;
+        //startDate = dateString;
+        //startDateWeek = weekString;
         UITableViewCell *cell = [_tableView cellForRowAtIndexPath:indexPath];
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@",dateString,weekString];
     }
@@ -83,41 +75,25 @@
 #pragma mark 选择车次
 -(void)selectTrainNo
 {
-    if (fromStationTelecode.length == 0 || toStationTelecode.length == 0 || startDate.length == 0) {
+    if (![TrainSession sharedSession].fromStation || ![TrainSession sharedSession].toStation || ![TrainSession sharedSession].startDate) {
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"hello" message:@"请填写完整出发地、目的地以及出发日期再进行车次选择" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];
         return;
     }
-    //date=2012-10-22&fromstation=BJP&tostation=SHH&starttime=00%3A00--24%3A00
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:startDate,@"date",fromStationTelecode,@"fromstation",toStationTelecode,@"tostation",startTime,@"starttime", nil];
-    
-    AFHTTPClient *httpClient = [[AFHTTPClient alloc]initWithBaseURL:[NSURL URLWithString:@"https://dynamic.12306.cn/otsweb/order"]];
-    NSMutableURLRequest *request = [httpClient requestWithMethod:@"POST" path:@"https://dynamic.12306.cn/otsweb/order/querySingleAction.do?method=queryststrainall" parameters:params];
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc]initWithRequest:request];
-    [operation  setHttpsAuth];
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation,id responseObject){
-        if (responseObject ==  nil) {
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"hello" message:@"无车次信息" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            [alertView show];
-            return;
-        }
-        NSError *error;
-        id jsonObject = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:&error];
-        //G101（北京南07:00→上海虹桥12:23）
+    [[TrainSession sharedSession]queryAllTrainNoWithCompletion:^(NSMutableArray *trainNoArray, NSError *error) {
         TrainNoSelectController *controller = [[TrainNoSelectController alloc]init];
         controller.delegate = self;
-        controller.trainNoArray = jsonObject;
-        [self.navigationController pushViewController:controller animated:YES];        
-        
-    } failure:^(AFHTTPRequestOperation *operation,NSError *error){
-        NSLog(@"get trainNo Error:%@",error);
+        controller.trainNoArray = trainNoArray;
+        [self.navigationController pushViewController:controller animated:YES];
     }];
-    [operation start];
-    
-
+}
+-(void)selectTrainNo:(TrainNoInfo *)trainNoInfo
+{
+    [TrainSession sharedSession].selectTrainNoInfo = trainNoInfo;
+    [_tableView reloadData];
 }
 
--(void)selectTrainNo:(NSString *)trainNoString desc:(NSString *)descString
+/*-(void)selectTrainNo:(NSString *)trainNoString desc:(NSString *)descString
 {
     NSLog(@"select trainNo:%@ Desc:%@",trainNo,descString);
     NSIndexPath *indexPath = [_tableView indexPathForSelectedRow];
@@ -127,13 +103,21 @@
         UITableViewCell *cell = [_tableView cellForRowAtIndexPath:indexPath];
         cell.detailTextLabel.text = trainNoDesc;
     }
-}
+}*/
 
 #pragma mark -
 #pragma mark 查询
 
 -(void)startQuery:(id)sender
 {
+    [[TrainSession sharedSession] queryLeftTicketWithCompletion:^(NSMutableArray *trainTicketInfoArray, NSError *error) {
+        if (trainTicketInfoArray && trainTicketInfoArray.count > 0) {
+            QueryResultController *controller = [[QueryResultController alloc]init];
+            //controller.queryParams = self.queryParams;
+            controller.queryResultArray = trainTicketInfoArray;
+            [self.navigationController pushViewController:controller animated:YES];
+        }
+    }];
     // NSString *fileName = [NSString stringWithFormat:@"%@/trainInfo.txt",NSHomeDirectory()];
     //NSError *error;
     //NSString *responce = [NSString stringWithContentsOfFile:fileName encoding:NSUTF8StringEncoding error:&error];
@@ -158,7 +142,7 @@
     
     /*GET https://dynamic.12306.cn/otsweb/order/querySingleAction.do?method=queryLeftTicket&orderRequest.train_date=2012-10-23&orderRequest.from_station_telecode=BJP&orderRequest.to_station_telecode=SHH&orderRequest.train_no=&trainPassType=QB&trainClass=QB%23D%23Z%23T%23K%23QT%23&includeStudent=00&seatTypeAndNum=&orderRequest.start_time_str=00%3A00--24%3A00 HTTP/1.1*/
     
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+   /* NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                         startDate,kTrainDateField,
                         fromStationTelecode,kFromStationField,
                         toStationTelecode,kToStationField,
@@ -169,8 +153,10 @@
                         seatTypeNum,kSeatTypeNumField,
                         startTime,kStartTimeField, nil];
     self.queryParams = [NSMutableDictionary dictionaryWithDictionary:params];
-    [self.queryParams setObject:fromStationTelecodeName forKey:@"from_station_telecode_name"];
-    [self.queryParams setObject:toStationTelecodeName forKey:@"to_station_telecode_name"];
+   // [self.queryParams setObject:fromStationTelecodeName forKey:@"from_station_telecode_name"];
+   // [self.queryParams setObject:toStationTelecodeName forKey:@"to_station_telecode_name"];
+    //[self.queryParams setObject:fromStationTelecodeName forKey:@"from_station_telecode_name"];
+    //[self.queryParams setObject:toStationTelecodeName forKey:@"to_station_telecode_name"];
     //NSLog(@"params:%@",params);
     
     AFHTTPClient *httpClient = [[AFHTTPClient alloc]initWithBaseURL:[NSURL URLWithString:@"https://dynamic.12306.cn/otsweb/order"]];
@@ -194,7 +180,7 @@
     } failure:^(AFHTTPRequestOperation *operation,NSError *error){
         NSLog(@"get leftTicket Error:%@",error);
     }];
-    [operation start];
+    [operation start];*/
 
 }
 
@@ -228,20 +214,32 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"出发地";
-            cell.detailTextLabel.text = fromStationTelecodeName;
+            if ([TrainSession sharedSession].fromStation) {
+                cell.detailTextLabel.text = [TrainSession sharedSession].fromStation.stationCnName;
+            }
+            
         }else if(indexPath.row == 1){
             cell.textLabel.text = @"目的地";
-            cell.detailTextLabel.text = toStationTelecodeName;
+            if ([TrainSession sharedSession].toStation) {
+                cell.detailTextLabel.text = [TrainSession sharedSession].toStation.stationCnName;
+            }
         }
     }else if(indexPath.section == 1){
         if (indexPath.row == 0) {
             cell.textLabel.text = @"出发日期";
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@",startDate,startDateWeek];
+            if ([TrainSession sharedSession].startDate) {
+               cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@",[TrainSession sharedSession].startDate,[TrainSession sharedSession].startDateWeek];
+            }
+            
         }
     }else if(indexPath.section == 2){
         if (indexPath.row == 0) {
             cell.textLabel.text = @"出发车次";
-            cell.detailTextLabel.text = trainNoDesc;
+            if ([TrainSession sharedSession].selectTrainNoInfo) {
+                TrainNoInfo *trainNoInfo = [TrainSession sharedSession].selectTrainNoInfo;
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@(%@%@-%@%@)",trainNoInfo.trainNo,trainNoInfo.startStationName,trainNoInfo.startTime,trainNoInfo.endStationName,trainNoInfo.endTime];
+            }
+            
         }
     }
     
