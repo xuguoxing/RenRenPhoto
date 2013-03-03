@@ -182,6 +182,13 @@ indexToRectMap = _indexToRectMap;
         self.visibleViews = [NSMutableDictionary dictionary];
         self.viewKeysToRemove = [NSMutableArray array];
         self.indexToRectMap = [NSMutableDictionary dictionary];
+        
+        self.xMargin = kMargin;
+        self.yMargin = kMargin;
+        self.topMargin = kMargin;
+        self.bottomMargin = kMargin;
+        self.leftMargin = kMargin;
+        self.rightMargin = kMargin;
     }
     return self;
 }
@@ -258,15 +265,15 @@ indexToRectMap = _indexToRectMap;
     NSInteger numViews = [self.collectionViewDataSource numberOfViewsInCollectionView:self];
     
     CGFloat totalHeight = 0.0;
-    CGFloat top = kMargin;
+    CGFloat top = self.topMargin;
     
     // Add headerView if it exists
     if (self.headerView) {
-        self.headerView.top = kMargin;
+        self.headerView.top = self.topMargin;
         top = self.headerView.top;
         [self addSubview:self.headerView];
         top += self.headerView.height;
-        top += kMargin;
+        top += self.yMargin;
     }
     
     if (numViews > 0) {
@@ -277,7 +284,8 @@ indexToRectMap = _indexToRectMap;
         }
         
         // Calculate index to rect mapping
-        self.colWidth = floorf((self.width - kMargin * (self.numCols + 1)) / self.numCols);
+        self.colWidth = floorf((self.width - self.leftMargin - self.rightMargin - self.xMargin*(self.numCols-1))/self.numCols);
+        //self.colWidth = floorf((self.width - kMargin * (self.numCols + 1)) / self.numCols);
         for (NSInteger i = 0; i < numViews; i++) {
             NSString *key = PSCollectionKeyForIndex(i);
             
@@ -293,7 +301,7 @@ indexToRectMap = _indexToRectMap;
                 }
             }
             
-            CGFloat left = kMargin + (col * kMargin) + (col * self.colWidth);
+            CGFloat left = self.leftMargin + (col * self.xMargin) + (col * self.colWidth);
             CGFloat top = [[colOffsets objectAtIndex:col] floatValue];
             CGFloat colHeight = [self.collectionViewDataSource heightForViewAtIndex:i];
             if (colHeight == 0) {
@@ -310,7 +318,7 @@ indexToRectMap = _indexToRectMap;
             [self.indexToRectMap setObject:NSStringFromCGRect(viewRect) forKey:key];
             
             // Update the last height offset for this column
-            CGFloat test = top + colHeight + kMargin;
+            CGFloat test = top + colHeight + self.yMargin;
             
             if (test != test) {
                 // NaN
@@ -326,7 +334,7 @@ indexToRectMap = _indexToRectMap;
         
         // If we have an empty view, show it
         if (self.emptyView) {
-            self.emptyView.frame = CGRectMake(kMargin, top, self.width - kMargin * 2, self.height - top - kMargin);
+            self.emptyView.frame = CGRectMake(self.leftMargin, top, self.width - self.leftMargin - self.rightMargin, self.height - top - self.bottomMargin);
             [self addSubview:self.emptyView];
         }
     }
@@ -336,7 +344,10 @@ indexToRectMap = _indexToRectMap;
         self.footerView.top = totalHeight;
         [self addSubview:self.footerView];
         totalHeight += self.footerView.height;
-        totalHeight += kMargin;
+        totalHeight += self.bottomMargin;
+    }else{
+        totalHeight -= self.yMargin;
+        totalHeight += self.bottomMargin;
     }
     
     self.contentSize = CGSizeMake(self.width, totalHeight);
