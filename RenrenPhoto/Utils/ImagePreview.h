@@ -7,7 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "MWTapDetectingImageView.h"
 @interface ImagePreview : NSObject
+
+@property (nonatomic,assign) id<MWTapDetectingImageViewDelegate> delegate;
+
+-(id)initWithImage:(UIImage*)image startFrame:(CGRect)startFrame;
+-(void)show;
+-(void)hide;
 
 @end

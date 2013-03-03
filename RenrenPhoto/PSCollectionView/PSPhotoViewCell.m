@@ -8,6 +8,7 @@
 
 #import "PSPhotoViewCell.h"
 #import "UIImageView+WebCache.h"
+#import "IconImage.h"
 @implementation PSPhotoViewCell
 
 - (id)initWithFrame:(CGRect)frame
@@ -15,6 +16,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         _imageView = [[UIImageView alloc]initWithFrame:self.bounds];
+        _imageView.contentMode = UIViewContentModeScaleAspectFill;
+        _imageView.clipsToBounds = YES;
         _imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         [self addSubview:_imageView];
     }
@@ -32,8 +35,7 @@
     [super fillViewWithObject:object];
     if ([object isKindOfClass:[NSString class]]) {
         __weak NSString *urlString = (NSString*)object;
-       // [_imageView setImageWithURL:[NSURL URLWithString:urlString]];
-        [_imageView setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:nil options:SDWebImageProgressiveDownload];
+        [_imageView setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[IconImage emptyPhotoImage]];
     }
 }
 /*

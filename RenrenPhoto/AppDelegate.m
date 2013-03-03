@@ -7,23 +7,43 @@
 //
 
 #import "AppDelegate.h"
-#import "UIEventProbeWindow.h"
+#import "MenuViewController.h"
+#import "UserAlbumsController.h"
+#import "IconImage.h"
 @implementation AppDelegate
 
 @synthesize window = _window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    //self.window = [[UIEventProbeWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
-    mainController = [[MainViewController alloc]init];
-    nav = [[UINavigationController alloc]initWithRootViewController:mainController];
-    self.window.rootViewController = nav;
-    //[self.window addSubview:nav.view];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
     
+     [[UINavigationBar appearance]setBackgroundImage:[IconImage navbgImage] forBarMetrics:UIBarMetricsDefault];
+    
+    [[UIBarButtonItem appearance]setBackButtonBackgroundImage:[IconImage backBtnGrayImage] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance]setBackButtonBackgroundImage:[IconImage backBtnHoverImage] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance]setBackButtonBackgroundImage:[IconImage backBtnHoverImage] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+    
+    //登录页
+    self.loginController = [[LoginViewController alloc]init];
+    
+    self.menuController = [[DDMenuController alloc] init];
+    self.leftController = [[MenuViewController alloc]init];
+    self.menuController.leftViewController = self.leftController;
+    
+    
+    if ([Renren sharedRenren].isSessionValid) {
+        [self.leftController setSelectIndex:0];
+        [self.leftController viewWillAppear:NO];
+        self.window.rootViewController = self.menuController;
+    }else{
+        self.window.rootViewController = self.loginController;
+    }
+        
     [self.window makeKeyAndVisible];
     return YES;
 }

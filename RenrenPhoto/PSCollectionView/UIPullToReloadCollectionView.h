@@ -7,7 +7,15 @@
 //
 
 #import "PSCollectionView.h"
+#import "UIPullToReloadHeaderView.h"
+#import "MessageInterceptor.h"
+@interface UIPullToReloadCollectionView : PSCollectionView<UIScrollViewDelegate>
+{
+    BOOL checkForRefresh;
+}
 
-@interface UIPullToReloadCollectionView : PSCollectionView
+@property (nonatomic,strong) UIPullToReloadHeaderView *pullToReloadHeaderView;
 
+-(void) pullDownToReloadActionFinished;
+-(void) autoPullDownToRefresh;
 @end

@@ -43,6 +43,13 @@
 @property (nonatomic, assign) id <PSCollectionViewDelegate> collectionViewDelegate;
 @property (nonatomic, assign) id <PSCollectionViewDataSource> collectionViewDataSource;
 
+@property (nonatomic) float xMargin;
+@property (nonatomic) float yMargin;
+@property (nonatomic) float topMargin;
+@property (nonatomic) float bottomMargin;
+@property (nonatomic) float leftMargin;
+@property (nonatomic) float rightMargin;
+
 #pragma mark - Public Methods
 
 /**
@@ -65,6 +72,7 @@
 
 @optional
 - (void)collectionView:(PSCollectionView *)collectionView didSelectView:(PSCollectionViewCell *)view atIndex:(NSInteger)index;
+-(void)pullDownToReloadAction;
 
 @end
 

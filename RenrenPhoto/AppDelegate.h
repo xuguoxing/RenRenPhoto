@@ -8,13 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "MainViewController.h"
-#import "FontTestController.h"
+#import "LoginViewController.h"
+#import "DDMenuController.h"
+#import "MenuViewController.h"
+#import "Renren.h"
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
     MainViewController *mainController;
-    FontTestController *fontTestController;
-    UINavigationController *nav;
+    //UINavigationController *nav;
 }
+
+@property (strong, nonatomic) DDMenuController *menuController;
+@property (strong, nonatomic) MenuViewController *leftController;
+@property (strong,nonatomic) LoginViewController *loginController;
 
 @property (strong, nonatomic) UIWindow *window;
 
