@@ -7,7 +7,9 @@
 //
 
 #import "AFHTTPClient.h"
+#import "AFNetworking.h"
 
 @interface MyHTTPClient : AFHTTPClient
-
++(MyHTTPClient*)sharedClient;
+- (AFHTTPRequestOperation *)HTTPRequestWithMethod:(NSString *)method path:(NSString *)path parameters:(NSDictionary *)parameters;
 @end

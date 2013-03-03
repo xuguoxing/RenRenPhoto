@@ -10,4 +10,6 @@
 
 @interface UIBarButtonItem (Custom)
 
+-(id)initWithViewController:(UIViewController *) controller;
+
 @end
