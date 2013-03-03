@@ -195,7 +195,7 @@ static NSString * AFPropertyListStringFromParameters(NSDictionary *parameters) {
 @interface AFHTTPClient ()
 @property (readwrite, nonatomic) NSURL *baseURL;
 @property (readwrite, nonatomic) NSMutableArray *registeredHTTPOperationClassNames;
-@property (readwrite, nonatomic) NSMutableDictionary *defaultHeaders;
+//@property (readwrite, nonatomic) NSMutableDictionary *defaultHeaders; move to .h文件，2012.11.17 xugx
 @property (readwrite, nonatomic) NSOperationQueue *operationQueue;
 #ifdef _SYSTEMCONFIGURATION_H
 @property (readwrite, nonatomic, assign) AFNetworkReachabilityRef networkReachability;

@@ -121,6 +121,8 @@ typedef enum {
  */
 @property (readonly, nonatomic) NSOperationQueue *operationQueue;
 
+
+@property (readwrite, nonatomic) NSMutableDictionary *defaultHeaders; //remove from m文件,xugx 2012.11.17
 /**
  The reachability status from the device to the current `baseURL` of the `AFHTTPClient`.
 
